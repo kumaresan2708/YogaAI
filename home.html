@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.3.0/lib/p5.js"></script>
+    <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+    <link rel="icon" href="https://img.icons8.com/ios-filled/50/000000/floating-guru.png" type="image/gif" sizes="16x16">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto:wght@500&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" href="home.css">
+
+    <title>Document</title>
+    <style>
+        * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  /* font-family: 'Orbitron', sans-serif; */
+}
+
+/* .home{
+            position: relative;
+            background-color: blue;
+            width:100%;
+            height:100%;
+        }
+        .homeleft{
+            position:absolute ;
+            width: 70%;
+            height: 100px;
+            display: block;
+            background-color: aqua;
+        }
+        .homeright{
+            position:absolute;
+            width:30%;
+            height:100px;
+            display: block;
+            background-color: red;
+        }
+        .webcam{
+            background-color: black;
+        } */
+.home {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+.home-left {
+  float: left;
+  display: block;
+  /* background-color: rgba(0, 0, 255, 0.233); */
+  width: 70%;
+  height: 100vh;
+  animation-name: mytransition;
+  animation-duration: 0s;
+  animation-timing-function: linear;
+}
+
+@keyframes mytransition {
+  from {
+    background-color: #fdfdfd;
+  }
+  to {
+    background-color: rgb(217, 247, 221);
+  }
+}
+
+.home-right {
+  float: right;
+  display: block;
+  /* background-color: #6b63ff8c; */
+  width: 30%;
+  height: 100vh;
+  /* background-color: rgb(168, 181, 255); */
+  animation-name: myeffect;
+  animation-duration: 30s;
+  animation-timing-function: linear;
+}
+
+@keyframes myeffect {
+  from {
+    background-color: #ffffff;
+  }
+  to {
+    background-color: rgb(176, 167, 255);
+  }
+}
+
+#webcam {
+  margin: 15vh auto 0 auto;
+  display: block;
+  width: 640px;
+  height: 480px;
+  background-color: rgb(223, 225, 252);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.play {
+  display: block;
+  margin: 0 auto;
+  background-color: #000000;
+  width: 6rem;
+  height: 6vh;
+  margin-top: 2rem;
+  border-radius: 10px;
+  /* text-align: center;
+            vertical-align: middle; */
+  cursor: pointer;
+
+  /* position: relative; */
+}
+
+.play:hover {
+  transform: scale(1.1);
+}
+
+.play h3 {
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 6vh;
+
+  /* position: absolute;  //DIV vertical center
+            top:0;
+            bottom:0;
+            right:0;
+            left:0;
+            margin:0 auto; */
+}
+
+.progress {
+  width: 640px;
+  height: 1.5vh;
+
+  /* background-color: rgb(0, 0, 0); */
+  display: block;
+  margin: 5vh auto 0 auto;
+  border-radius: 20px;
+}
+
+.progress-value {
+  background-color: rgb(78, 78, 78);
+  height: 100%;
+  border-radius: 20px;
+  animation-name: mymove;
+  animation-duration: 0s;
+  animation-delay: 2s;
+  animation-timing-function: linear;
+}
+@keyframes mymove {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.heading {
+  width: 55%;
+  height: 4vh;
+  margin: 15vh auto 0 auto;
+  /* background-color: antiquewhite; */
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  font-family: "Roboto", sans-serif;
+  /* color: white; */
+}
+
+.box {
+  width: 70%;
+  height: 40vh;
+  background-color: yellowgreen;
+  display: block;
+  margin: 12vh auto;
+}
+
+.box img {
+  /* display: flex; */
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+}
+
+.timer {
+  font-family: "Prompt", sans-serif;
+  width: 55%;
+  height: 5vh;
+  display: block;
+  /* background-color: aqua; */
+  margin: 0 auto;
+  /* color: white; */
+}
+
+    </style>
+</head>
+
+<body onload="timer()">
+    <div class="home">
+        <div id="home-left-back" class="home-left">
+            <div id="webcam">
+
+            </div>
+            <div class="progress">
+                <div class="progress-value" id="pg-val"></div>
+            </div>
+            <div onclick="javascript:window.top.location.reload(true);toggle()" class="play">
+                <h3 style="color:white">
+                    <i  id="control-button" class="fas fa-redo-alt"></i>
+                </h3>
+            </div>
+        </div>
+        <div class="home-right">
+            <div class="heading">
+                <h1>Mountain</h1>
+            </div>
+            
+            <div class="box">
+                <img src="https://media.istockphoto.com/vectors/woman-standing-in-yoga-position-vector-id1087408928?k=6&m=1087408928&s=612x612&w=0&h=6BqTvAlXIjywb97T7Nb_YkFiNwHwOsPeiLy-s5HGDF0=" alt="">
+            </div>
+        
+
+            <div style="text-align: center;" class="timer">
+                <h1 id="count"></h1>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let video;
+            let poseNet;
+            let pose;
+            let skeleton;
+
+            function setup() {
+                let canvas = createCanvas(640, 480);
+                video = createCapture(VIDEO);
+                video.hide();
+                poseNet = ml5.poseNet(video, modelLoaded);
+                poseNet.on("pose", gotPoses);
+                canvas.parent("webcam");
+            }
+
+            function gotPoses(poses) {
+                console.log(poses);
+                //if(poses.lenght>0)
+                {
+                    pose = poses[0].pose;
+                    skeleton = poses[0].skeleton;
+                }
+            }
+
+            function modelLoaded() {
+                console.log("poseNet ready");
+            }
+
+            function draw() {
+                image(video, 0, 0);
+
+                if (pose) {
+                    fill(200, 0, 0);
+                    ellipse(pose.nose.x, pose.nose.y, 30);
+
+                    for (let i = 0; i < pose.keypoints.length; i++) {
+                        let x = pose.keypoints[i].position.x;
+                        let y = pose.keypoints[i].position.y;
+                        fill(0, 255, 0);
+                        ellipse(x, y, 16, 16);
+                    }
+                    for (let i = 0; i < skeleton.length; i++) {
+                        let a = skeleton[i][0];
+                        let b = skeleton[i][1];
+                        strokeWeight(8);
+                        stroke(5, 105, 205);
+                        line(a.position.x, a.position.y, b.position.x, b.position.y);
+                    }
+                }
+            }
+
+    </script>
+
+    <script>
+        timer();
+            function timer() {
+                const startingMinutes = 1;
+                var time = startingMinutes * 60;
+                var animation = time;
+                const count = document.getElementById("count");
+
+                document.getElementById("pg-val").style.animationDuration = `${animation}s`;
+                document.getElementById(
+                    "home-left-back"
+                ).style.animationDuration = `${animation}s`;
+
+                setInterval(updateCount, 1000);
+                function updateCount() {
+                    if (time >= 0) {
+                        const minutes = Math.floor(time / 60);
+                        var seconds = time % 60;
+
+                        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                        count.innerHTML = `${minutes}:${seconds}`;
+                        time--;
+                    } else {
+                        document.getElementById("pg-val").style.width = "0%";
+                    }
+                }
+            }
+
+            function toggle() { }
+
+    </script>
+
+
+</body>
+
+</html>
