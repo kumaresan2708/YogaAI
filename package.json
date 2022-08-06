@@ -19,7 +19,7 @@
     "md5": "^2.3.0",
     "mongoose": "^5.11.11",
     "mongoose-encryption": "^2.0.3",
-    "otp-generator": "^2.0.0",
+    "otp-generator": "^3.0.0",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0"
   }
